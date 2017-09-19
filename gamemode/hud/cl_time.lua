@@ -142,7 +142,7 @@ hook.Add("HUDPaint", "TKPH_Time", function()
     if Hud.moving or not Hud.show:GetBool() then return end
     surface.SetFont(Hud.font)
     local x = surface.GetTextSize("00:00:00")
-    draw.SimpleText("Playtime: " .. TK:FormatTime(LocalPlayer():GetNWInt("TKPlaytime", 0)), Hud.font, Hud.width - 5, 3, TK.HUD.Colors.text, TEXT_ALIGN_RIGHT, TEXT_ALIGN_BOTTOM)
+    draw.SimpleText("Playtime: " .. TK:FormatTime(LocalPlayer():GetNWInt("TKPlaytime", 0)), Hud.font, Hud.width - 5, 3, TK.HUD.Colors.text, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP)
     draw.SimpleText(os.date("%H:%M:%S"), Hud.font, Hud.width - x - 5, Hud.tallEdge / 2, TK.HUD.Colors.text, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
     ---- MOTD --\\
     Hud.MOTD.vpaint = true
