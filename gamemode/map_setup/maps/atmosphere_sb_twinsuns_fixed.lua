@@ -36,7 +36,7 @@
 			"flags"		"0"
 			"sphere"		"1"
 			"name"		"Outpost 47"
-			"noclip"		"0"
+			"noclip"		"1"
 			"gravity"		"1"
             "resources"
             {
@@ -83,7 +83,7 @@
 			"flags"		"1"
 			"sphere"		"1"
 			"name"		"Kaepora"
-			"noclip"		"0"
+			"noclip"		"1"
 			"gravity"		"1.5"
             "resources"
             {
