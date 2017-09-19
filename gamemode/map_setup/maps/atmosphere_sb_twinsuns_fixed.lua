@@ -32,18 +32,18 @@
 		{
 			"radius"		"1280"
 			"temphot"		"290"
-			"tempcold"		"275"
+			"tempcold"		"290"
 			"flags"		"0"
 			"sphere"		"1"
 			"name"		"Outpost 47"
 			"noclip"		"0"
-			"gravity"		"0.5"
+			"gravity"		"1"
             "resources"
             {
-                "oxygen"		"5"
-                "nitrogen"		"70"
-                "hydrogen"		"5"
-                "carbon_dioxide"		"20"
+                "oxygen"		"60"
+                "nitrogen"		"15"
+                "hydrogen"		"15"
+                "carbon_dioxide"		"10"
             }
 		}
 	}
@@ -78,8 +78,8 @@
 		"data"
 		{
 			"radius"		"4096"
-			"temphot"		"450"
-			"tempcold"		"300"
+			"temphot"		"290"
+			"tempcold"		"290"
 			"flags"		"1"
 			"sphere"		"1"
 			"name"		"Kaepora"
@@ -87,7 +87,10 @@
 			"gravity"		"1.5"
             "resources"
             {
-                "carbon_dioxide"		"100"
+                "oxygen"		"60"
+                "nitrogen"		"15"
+                "hydrogen"		"15"
+                "carbon_dioxide"		"10"
             }
 		}
 	}
