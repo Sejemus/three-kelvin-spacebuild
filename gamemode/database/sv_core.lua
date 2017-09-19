@@ -3,13 +3,7 @@ TK.DB = TK.DB or {}
 local MySQL = {}
 
 --/--- MySQL Settings ---\\\
-MySQL.SQLSettings = {
-    Host = "127.0.0.1",
-    Port = 3306,
-    Name = "three_kelvin",
-    Username = "root",
-    Password = "qwerty"
-}
+MySQL.SQLSettings = include("./sv_login.lua")
 
 MySQL.Placeholder = {
     ["DB_TIME"] = "UNIX_TIMESTAMP()",
@@ -70,7 +64,7 @@ end
 
 function MySQL:ProcessQuery(qdata)
     if not tmysql then return end
-    self.Database:Query(qdata.query, MySQL.Callback, 1, qdata)
+    self.Database:Query(qdata.query, MySQL.Callback, qdata, 1)
     MySQL.Running = true
 end
 
@@ -90,15 +84,22 @@ end
 
 function MySQL:Connect()
     if not tmysql then return end
+
+    
+    if self.SQLSettings == null && !file.Exists( "gamemodes/" .. GAMEMODE_NAME .. "/gamemode/database/sv_login.lua", "GAME" ) then
+        error("Setup sv_login.lua file!") 
+    end
+
     print("-------------------")
     print("tmysql Connecting")
     print("-------------------")
-    local database, error_string = tmysql.initialize(self.SQLSettings.Host, self.SQLSettings.Username, self.SQLSettings.Password, self.SQLSettings.Name, self.SQLSettings.Port)
+    local database, error_string = tmysql.initialize(self.SQLSettings.Host, self.SQLSettings.Username, self.SQLSettings.Password, self.SQLSettings.Database, self.SQLSettings.Port)
     self.Database = database
 
     if not database then
         print("-------------------")
         print(error_string)
+        print(self.SQLSettings.Host)
         print("-------------------")
     else
         print("-------------------")

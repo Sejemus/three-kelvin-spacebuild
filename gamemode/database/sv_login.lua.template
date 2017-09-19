@@ -1,0 +1,7 @@
+return{
+    Host = "localhost",
+    Port = 3306,
+    Database = "three_kelvin",
+    Username = "tksb",
+    Password = "qwerty"
+}
