@@ -129,7 +129,7 @@ hook.Add("TKDB_Player_Data", "TKLO", function(ply, dbtable, idx, data)
     TK.LO:UpdateLimits(ply, data)
 end)
 
-hook.Add("PlayerInitialSpawn", "TKLO", function(ply)
+hook.Add("PlayerLoadout", "TKLO", function(ply)
     local data = TK.DB:GetPlayerData(ply, "player_terminal_loadout").loadout
     TK.LO:UpdateLimits(ply, data)
     local ent_names = {}
