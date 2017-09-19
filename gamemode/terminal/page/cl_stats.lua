@@ -4,10 +4,10 @@ function PANEL:Init()
     self:SetSkin("Terminal")
     self.NextThink = 0
     self.webpage = vgui.Create("HTML", self)
-    self.webpage:OpenURL("http://resource.threekelv.in/leaderboard.php")
+    self.webpage:OpenURL("clockworksstudio.com/leaderboard.php")
 
     hook.Add("TKOpenTerminal", "StatsRefresh", function()
-        self.webpage:OpenURL("http://resource.threekelv.in/leaderboard.php")
+        self.webpage:OpenURL("clockworksstudio.com/leaderboard.php")
     end)
 end
 
