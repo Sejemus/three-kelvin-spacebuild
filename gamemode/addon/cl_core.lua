@@ -3,8 +3,8 @@ local AOC = {}
 
 AOC.Legacy = {
     ["SpaceBuild Enhancement Project"] = "https://github.com/SnakeSVx/sbep.git",
-    ["Adv. Duplicator 2"] = "https://github.com/wiremod/advdupe2.git",
-    ["TKMP"] = "https://code.google.com/p/3k-model-pack/"
+    --["Adv. Duplicator 2"] = "https://github.com/wiremod/advdupe2.git",--Now added to workshop collection
+    --["TKMP"] = "https://code.google.com/p/3k-model-pack/"--DEAD LINK?
 }
 
 AOC.MountedLegacy = {}
