@@ -4,7 +4,7 @@ TK.HUD.MOTDs = {}
 TK.HUD.MOTDs[1] = "Welcome to Three Kelvin Spacebuild!"
 TK.HUD.MOTDs[2] = "This server has Audio Emotes! Bind +AudioEmotePanel_Show to see the menu"
 TK.HUD.MOTDs[3] = "Three Kelvin Spacebuild is originally made by Ghost400, Randomic and Techbot"
-TK.HUD.MOTDs[3] = "Not sure how to do something? Ask!"
+TK.HUD.MOTDs[4] = "Not sure how to do something? Ask!"
 
 local Admin = CreateClientConVar("3k_admin_overlay", 1, true, false)
 local index = 0
