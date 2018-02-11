@@ -4,11 +4,12 @@ TK.DB.g_flood = {}
 util.AddNetworkString("TKGC_Msg")
 
 local function CanSendMsg(ply)
-local uid = ply:UID()
-TK.DB.g_flood[uid] = (TK.DB.g_flood[uid] or 0) + 1
-if TK.DB.g_flood[uid] > 5 then return false end
+    local uid = ply:UID()
+    TK.DB.g_flood[uid] = (TK.DB.g_flood[uid] or 0) + 1
+    
+    if TK.DB.g_flood[uid] > 5 then return false end
 
-return true
+    return true
 end
 
 local function ExtractFlag(flag, id)
@@ -16,44 +17,44 @@ local function ExtractFlag(flag, id)
 end
 
 function TK.DB:SendPlyMsg(flag, server, rank, faction, name, msg)
-local plys = player.GetAll()
+    local plys = player.GetAll()
 
-if ExtractFlag(flag, 4) then
-    print(server .. "[Admin]", TK.AM.Rank.Tag[rank] .. name, msg)
+    if ExtractFlag(flag, 4) then
+        print(server .. "[Admin]", TK.AM.Rank.Tag[rank] .. name, msg)
 
-    for k, v in pairs(plys) do
-        if v:IsModerator() then continue end
-        plys[k] = nil
+        for k, v in pairs(plys) do
+            if v:IsModerator() then continue end
+            plys[k] = nil
+        end
+    elseif ExtractFlag(flag, 2) then
+        print(server .. "[Team]", TK.AM.Rank.Tag[rank] .. name, msg)
+
+        for k, v in pairs(plys) do
+            if v:Team() == faction then continue end
+            plys[k] = nil
+        end
+    else
+        print(server, TK.AM.Rank.Tag[rank] .. name, msg)
     end
-elseif ExtractFlag(flag, 2) then
-    print(server .. "[Team]", TK.AM.Rank.Tag[rank] .. name, msg)
 
-    for k, v in pairs(plys) do
-        if v:Team() == faction then continue end
-        plys[k] = nil
-    end
-else
-    print(server, TK.AM.Rank.Tag[rank] .. name, msg)
-end
-
-net.Start("TKGC_Msg")
-net.WriteFloat(1)
-net.WriteFloat(flag)
-net.WriteString(server)
-net.WriteFloat(rank)
-net.WriteFloat(faction)
-net.WriteString(name)
-net.WriteString(msg)
-net.Send(plys)
+    net.Start("TKGC_Msg")
+    net.WriteFloat(1)
+    net.WriteFloat(flag)
+    net.WriteString(server)
+    net.WriteFloat(rank)
+    net.WriteFloat(faction)
+    net.WriteString(name)
+    net.WriteString(msg)
+    net.Send(plys)
 end
 
 function TK.DB:SendSysMsg(server, msg)
-print(server, msg)
-net.Start("TKGC_Msg")
-net.WriteFloat(2)
-net.WriteString(server)
-net.WriteString(msg)
-net.Broadcast()
+    print(server, msg)
+    net.Start("TKGC_Msg")
+    net.WriteFloat(2)
+    net.WriteString(server)
+    net.WriteString(msg)
+    net.Broadcast()
 end
 
 function TK.DB:RemoteFunction(server, toserver, cmd, rank, faction, name)
@@ -63,52 +64,52 @@ function TK.DB:RemoteFunction(server, toserver, cmd, rank, faction, name)
 end
 
 function TK.DB:SendGlobalMsg(ply, msg, flag)
-if !IsValid(ply) or !ply:IsPlayer() then return end
+    if !IsValid(ply) or !ply:IsPlayer() then return end
 
-if !CanSendMsg(ply) then
-    TK.AM:SystemMessage({"Global Message Limit, please wait"}, {ply}, 2)
+    if !CanSendMsg(ply) then
+        TK.AM:SystemMessage({"Global Message Limit, please wait"}, {ply}, 2)
+        return
+    end
 
-    return
-end
+    self:InsertQuery("server_globalchat", {
+        msg_conection_id = "DB_CONN_ID",
+        msg_key = 0,
+        msg_origin = TK:HostName(),
+        msg_flag = flag,
+        msg_data = msg,
+        sender_rank = ply:GetRank(),
+        sender_faction = IsValid(ply) and ply:Team() or 0,
+        sender_name = ply:Name()
+    })
 
-self:InsertQuery("server_globalchat", {
-    msg_conection_id = "DB_CONN_ID",
-    msg_key = 0,
-    msg_origin = TK:HostName(),
-    msg_flag = flag,
-    msg_data = msg,
-    sender_rank = ply:GetRank(),
-    sender_faction = IsValid(ply) and ply:Team() or 0,
-    sender_name = ply:Name()
-})
-
-self:SendPlyMsg(flag, TK:HostName(), ply:GetRank(), ply:Team(), ply:Name(), msg)
+    self:SendPlyMsg(flag, TK:HostName(), ply:GetRank(), ply:Team(), ply:Name(), msg)
 end
 
 function TK.DB:SendGlobalSystemMsg(msg)
-self:InsertQuery("server_globalchat", {
-    msg_conection_id = "DB_CONN_ID",
-    msg_key = 1,
-    msg_origin = TK:HostName(),
-    msg_data = msg
-})
+    self:InsertQuery("server_globalchat", {
+        msg_conection_id = "DB_CONN_ID",
+        msg_key = 1,
+        msg_origin = TK:HostName(),
+        msg_data = msg
+    })
 
-self:SendSysMsg(TK:HostName(), msg)
+    self:SendSysMsg(TK:HostName(), msg)
 end
 
 function TK.DB:SendRemoteCmd(ply, svr, cmd)
-self:InsertQuery("server_globalchat", {
-    msg_conection_id = "DB_CONN_ID",
-    msg_key = 2,
-    msg_origin = TK:HostName(),
-    msg_recipient = svr,
-    msg_data = cmd,
-    sender_rank = ply:GetRank(),
-    sender_faction = IsValid(ply) and ply:Team() or 0,
-    sender_name = ply:Name()
-})
+    self:InsertQuery("server_globalchat", {
+        msg_conection_id = "DB_CONN_ID",
+        msg_key = 2,
+        msg_origin = TK:HostName(),
+        msg_recipient = svr,
+        msg_data = cmd,
+        sender_rank = ply:GetRank(),
+        sender_faction = IsValid(ply) and ply:Team() or 0,
+        sender_name = ply:Name()
+    })
 end
 
+--/--- Hooks ---\\\
 hook.Add("InitPostEntity", "TKDB_GChat", function()
     TK.DB:SelectQuery("server_globalchat", {"msg_idx"}, {
         ["msg_idx > %s"] = 0
